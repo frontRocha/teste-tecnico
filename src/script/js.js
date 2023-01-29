@@ -273,46 +273,6 @@ function dropdown(e) {
     dropdown.classList.toggle('show-children');
 }
 
-function CheckBox(e) {
-    const currentCheckbox = e.target;
-    const currentTask = currentCheckbox.closest("li");
-    const isChecked = currentCheckbox.checked;
-
-    const childCheckboxes = currentTask.querySelectorAll("li input[type='checkbox']");
-    childCheckboxes.forEach(checkbox => checkbox.checked = isChecked);
-
-    const parentTask = currentTask.parentElement.closest("li");
-    if (parentTask) {
-        const parentCheckbox = parentTask.querySelector("input[type='checkbox']");
-        const childTasks = parentTask.querySelectorAll("li");
-
-        let allChecked = true;
-        let someChecked = false;
-
-        for (const childTask of childTasks) {
-            const childCheckbox = childTask.querySelector("input[type='checkbox']");
-            if (childCheckbox.checked) {
-                someChecked = true;
-            } else {
-                allChecked = false;
-            }
-        }
-        
-        if (allChecked) {
-            parentCheckbox.indeterminate = false;
-            parentCheckbox.checked = isChecked;
-        } 
-        else if (someChecked) {
-            parentCheckbox.indeterminate = true;
-            parentCheckbox.checked = false;
-        } 
-        else {
-            parentCheckbox.indeterminate = false;
-            parentCheckbox.checked = false;
-        }
-    }
-}
-
 function TaskDeleter(e) {
     function removeTask(e) {
         e.target.parentElement.remove();
