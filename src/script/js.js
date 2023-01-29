@@ -114,7 +114,7 @@ function Task() {
         childTask.appendChild(createElement('span', subTaskElements.taskDate, date));
         childTask.appendChild(createElement('ul', subTaskElements.childList));
 
-        taskList.appendChild(childTask);
+        return taskList.appendChild(childTask);
     }
 
     addTitleTask()
@@ -124,10 +124,10 @@ function Task() {
 //Elementos filhos
 function SubTasks(e) {
 
-    function confirmSubTaskTitle(e) {
-
+    function addTitleTask(e) {
         const parentTask = e.target.parentElement;
         const taskNameInput = parentTask.querySelector('.task-name-input');
+
         const taskName = taskNameInput.value;
 
         validateSubTaskTitle(taskName, parentTask)
@@ -139,8 +139,6 @@ function SubTasks(e) {
         if (!resultValidate) {
             const translateTitle = titleize(title)
             createElements(parentTask, translateTitle)
-
-            setItemsLocalStorage()
         }
     }
 
@@ -150,6 +148,7 @@ function SubTasks(e) {
         childTask.classList.add('child-item');
 
         addTaskToDOM(childTask, childList, title)
+
         return setItemsLocalStorage()
     }
 
@@ -167,7 +166,7 @@ function SubTasks(e) {
         return childList.appendChild(childTask)
     }
 
-    confirmSubTaskTitle(e)
+    addTitleTask(e)
 }
 
 
@@ -176,6 +175,7 @@ function CreateSubTask(e) {
 
     function createSubTask(e) {
         const parentTask = e.target.parentElement;
+
         createElements(parentTask);
     }
 
@@ -185,6 +185,8 @@ function CreateSubTask(e) {
         childTask.classList.add('child-item');
 
         addTaskToDOM(childTask, childList)
+
+        return
     }
 
     function addTaskToDOM(childTask, childList) {
@@ -269,6 +271,46 @@ function dropdown(e) {
 
     const dropdown = e.target.parentElement.querySelector('.dropdown-btn');
     dropdown.classList.toggle('show-children');
+}
+
+function CheckBox(e) {
+    const currentCheckbox = e.target;
+    const currentTask = currentCheckbox.closest("li");
+    const isChecked = currentCheckbox.checked;
+
+    const childCheckboxes = currentTask.querySelectorAll("li input[type='checkbox']");
+    childCheckboxes.forEach(checkbox => checkbox.checked = isChecked);
+
+    const parentTask = currentTask.parentElement.closest("li");
+    if (parentTask) {
+        const parentCheckbox = parentTask.querySelector("input[type='checkbox']");
+        const childTasks = parentTask.querySelectorAll("li");
+
+        let allChecked = true;
+        let someChecked = false;
+
+        for (const childTask of childTasks) {
+            const childCheckbox = childTask.querySelector("input[type='checkbox']");
+            if (childCheckbox.checked) {
+                someChecked = true;
+            } else {
+                allChecked = false;
+            }
+        }
+        
+        if (allChecked) {
+            parentCheckbox.indeterminate = false;
+            parentCheckbox.checked = isChecked;
+        } 
+        else if (someChecked) {
+            parentCheckbox.indeterminate = true;
+            parentCheckbox.checked = false;
+        } 
+        else {
+            parentCheckbox.indeterminate = false;
+            parentCheckbox.checked = false;
+        }
+    }
 }
 
 function TaskDeleter(e) {
