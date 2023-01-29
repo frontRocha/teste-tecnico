@@ -17,7 +17,7 @@ const validations = {
 }
 
 const taskActions = {
-    '.add-child': SubTaskCreator,
+    '.add-child': CreateSubTask,
     '.confirm-name-btn': SubTasks,
     'input[type="checkbox"]': CheckBox,
     '.delete-task': TaskDeleter,
@@ -120,34 +120,8 @@ function Task() {
     addTitleTask()
 }
 
+
 //Elementos filhos
-function SubTaskCreator(e) {
-
-    function createSubTask(e) {
-        const parentTask = e.target.parentElement;
-        createElements(parentTask);
-    }
-
-    function createElements(parentTask) {
-        const childList = parentTask.querySelector('.child-list');
-        const childTask = document.createElement('li');
-        childTask.classList.add('child-item');
-
-        addTaskToDOM(childTask, childList)
-    }
-
-    function addTaskToDOM(childTask, childList) {
-        childTask.appendChild(createElement('input', subTaskConfigs.input));
-        childTask.appendChild(createElement('button', subTaskConfigs.button));
-        childTask.appendChild(createElement('img', subTaskConfigs.imgDelete));
-        childTask.appendChild(createElement('ul', subTaskConfigs.childList));
-
-        return childList.appendChild(childTask);
-    }
-
-    createSubTask(e)
-}
-
 function SubTasks(e) {
 
     function confirmSubTaskTitle(e) {
@@ -196,6 +170,37 @@ function SubTasks(e) {
     confirmSubTaskTitle(e)
 }
 
+
+//Adiciona ao DOM, elementos para confirmações de valores
+function CreateSubTask(e) {
+
+    function createSubTask(e) {
+        const parentTask = e.target.parentElement;
+        createElements(parentTask);
+    }
+
+    function createElements(parentTask) {
+        const childList = parentTask.querySelector('.child-list');
+        const childTask = document.createElement('li');
+        childTask.classList.add('child-item');
+
+        addTaskToDOM(childTask, childList)
+    }
+
+    function addTaskToDOM(childTask, childList) {
+        childTask.appendChild(createElement('input', subTaskConfigs.input));
+        childTask.appendChild(createElement('button', subTaskConfigs.button));
+        childTask.appendChild(createElement('img', subTaskConfigs.imgDelete));
+        childTask.appendChild(createElement('ul', subTaskConfigs.childList));
+
+        return childList.appendChild(childTask);
+    }
+
+    createSubTask(e)
+}
+
+
+//Validações, configurações de criações e persistencia de dados
 function createElement(type, config, title) {
     const element = document.createElement(type);
     if (config.class) element.classList.add(config.class);
@@ -209,7 +214,7 @@ function createElement(type, config, title) {
     return element;
 }
 
-function getDate() {
+const getDate = () => {
     const date = new Date();
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -219,26 +224,23 @@ function getDate() {
 }
 
 function titleize(text) {
-    let loweredText = text.toLowerCase();
-    let wordsArray = loweredText.split(" ");
+    let wordsArray = text.toLowerCase().split(" ");
 
     let words = wordsArray.map((word) => {
-        let firstLetter = word[0];
-        if (word.length > 3) {
-            return firstLetter.toUpperCase() + word.slice(1);
+        if (word.length === 1) {
+            return word.toUpperCase() + ".";
         }
-        if (word.length < 2) {
-            return firstLetter.toUpperCase() + word.slice(1) + '.';
+        if (word.length === 2) {
+            return word;
         }
-
-        return firstLetter + word.slice(1);
-
+            
+        return word[0].toUpperCase() + word.slice(1);
     });
 
     return words.join(" ");
 }
 
-function validateTaskTitle(title) {
+const validateTaskTitle = (title) => {
     try {
         runValidations(title)
     } catch (err) {
@@ -246,12 +248,16 @@ function validateTaskTitle(title) {
     }
 }
 
-function setItemsLocalStorage() {
-    const teste = taskList.innerHTML
-    return localStorage.setItem('@tasklist:todo-list', JSON.stringify(teste));
+const runValidations = (title) => {
+    Object.keys(validations).forEach((key) => {
+        validations[key](title);
+    });
 }
 
+const setItemsLocalStorage = () => localStorage.setItem('@tasklist:todo-list', JSON.stringify(taskList.innerHTML));
 
+
+//Funcionalidades complementares
 function dropdown(e) {
     const childList = e.target.parentElement.querySelector('.child-list');
     childList.classList.toggle('show-children');
@@ -274,28 +280,19 @@ function TaskDeleter(e) {
     removeTask(e)
 }
 
-function runValidations(title) {
-    Object.keys(validations).forEach((key) => {
-        validations[key](title);
-    });
-}
 
-
-function getItemsLocalStorage() {
-    taskList.innerHTML = JSON.parse(localStorage.getItem('@tasklist:todo-list'));
-}
+const getItemsLocalStorage = () => taskList.innerHTML = JSON.parse(localStorage.getItem('@tasklist:todo-list'));
 
 if (localStorage.getItem("@tasklist:todo-list")) {
     getItemsLocalStorage()
 }
 
 
-
-addTaskBtn.addEventListener("click", function () {
+addTaskBtn.addEventListener("click", () => {
     Task()
 });
 
-taskList.addEventListener("click", function (e) {
+taskList.addEventListener("click", (e) => {
     Object.entries(taskActions).forEach(([selector, action]) => {
         if (e.target.matches(selector)) {
             action(e);
