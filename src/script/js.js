@@ -1,28 +1,29 @@
 const addTaskBtn = document.querySelector('#add-task');
-const taskTitleInput = document.querySelector('#task-input');
 const taskList = document.querySelector('#todo-list');
 const subTaskList = document.querySelector('.child-list');
 
+const imgDelete = '/src/assets/trash.png'
+const imgDropdownButton = '/src/assets/dropdown.png'
+const imgAdd = '/src/assets/add.png'
+
+
+//Objetos de funções, validações e atributos de elementos
 const validations = {
     checkEmpty: (title) => {
-        if (!title) {
-            throw new Error('Digite algo no campo!')
-        }
+        if (!title) throw new Error('Digite algo no campo!')
     },
     checkMinLength: (title) => {
-        if (title.length < 4) {
-            throw new Error('Digite algo válido')
-        }
+        if (title.length < 4) throw new Error('Digite algo válido');
     }
-}
+};
 
 const taskActions = {
-    '.add-child': CreateSubTask,
-    '.confirm-name-btn': SubTasks,
-    'input[type="checkbox"]': CheckBox,
-    '.delete-task': TaskDeleter,
+    '.add-child': createSubTask,
+    '.confirm-name-btn': subTasks,
+    'input[type="checkbox"]': checkBox,
+    '.delete-task': taskDeleter,
     '.dropdown-btn': dropdown
-}
+};
 
 const subTaskConfigs = {
     input: {
@@ -35,18 +36,18 @@ const subTaskConfigs = {
         class: 'confirm-name-btn'
     },
     imgDelete: {
-        src: '/src/assets/trash.png',
+        src: imgDelete,
         class: 'delete-task'
     },
     childList: {
         class: 'child-list'
     }
-}
+};
 
 const subTaskElements = {
     dropdownBtn: {
         type: 'img',
-        src: '/src/assets/dropdown.png',
+        src: imgDropdownButton,
         class: 'dropdown-btn'
     },
     checkbox: {
@@ -62,46 +63,47 @@ const subTaskElements = {
     },
     addChildBtn: {
         type: 'img',
-        src: '/src/assets/add.png',
+        src: imgAdd,
         class: 'add-child'
     },
     deleteTaskBtn: {
         type: 'img',
-        src: '/src/assets/trash.png',
+        src: imgDelete,
         class: 'delete-task'
     },
     childList: {
         class: 'child-list'
     }
-}
+};
+
 
 //Elementos Pais
-function Task() {
+function task() {
 
     function addTitleTask() {
-        const taskText = taskTitleInput.value;
+        const taskText = document.querySelector('#task-input').value;
 
         validateAndAddTask(taskText)
-        taskTitleInput.value = ''
-    }
+        document.querySelector('#task-input').value = ''
+    };
 
     async function validateAndAddTask(title) {
-        const resultValidate = await validateTaskTitle(title)
+        const resultValidate = await validateTaskTitle(title);
 
         if (!resultValidate) {
-            const translateTitle = titleize(title)
-            createElements(translateTitle)
-        }
-    }
+            const translateTitle = titleize(title);
+            createElements(translateTitle);
+        };
+    };
 
     async function createElements(title) {
         const childTask = document.createElement('li');
         childTask.classList.add('child-item');
 
-        addTaskToDOM(childTask, title)
+        addTaskToDOM(childTask, title);
 
-        return setItemsLocalStorage()
-    }
+        return setItemsLocalStorage();
+    };
 
     function addTaskToDOM(childTask, title) {
         const date = getDate();
@@ -115,94 +117,101 @@ function Task() {
         childTask.appendChild(createElement('ul', subTaskElements.childList));
 
         return taskList.appendChild(childTask);
-    }
+    };
 
-    addTitleTask()
-}
+    addTitleTask();
+};
 
+
+//Variavel global de referência aos elementos que serão substituidos
+let referenceChild;
 
 //Elementos filhos
-function SubTasks(e) {
+function subTasks(e) {
 
     function addTitleTask(e) {
         const parentTask = e.target.parentElement;
-        const taskNameInput = parentTask.querySelector('.task-name-input');
 
-        const taskName = taskNameInput.value;
+        const taskName = parentTask.querySelector('.task-name-input').value;
 
-        validateSubTaskTitle(taskName, parentTask)
-    }
+        validateSubTaskTitle(taskName, parentTask);
+    };
 
     async function validateSubTaskTitle(title, parentTask) {
-        const resultValidate = await validateTaskTitle(title)
+        const resultValidate = await validateTaskTitle(title);
 
         if (!resultValidate) {
-            const translateTitle = titleize(title)
-            createElements(parentTask, translateTitle)
-        }
-    }
+            removeElementsToConfirm(parentTask);
 
-    async function createElements(parentTask, title) {
-        const childList = parentTask.querySelector('.child-list');
-        const childTask = document.createElement('li');
-        childTask.classList.add('child-item');
+            const translateTitle = titleize(title);
+            createElements(translateTitle);
+        };
+    };
 
-        addTaskToDOM(childTask, childList, title)
+    function removeElementsToConfirm(parentTask) {
+        parentTask.querySelector('.task-name-input').remove();
+        parentTask.querySelector('.confirm-name-btn').remove();
+        parentTask.querySelector('.delete-task').remove();
 
-        return setItemsLocalStorage()
-    }
+        return;
+    };
 
-    function addTaskToDOM(childTask, childList, title) {
-        const date = getDate()
+    async function createElements(title) {
+        addTaskToDOM(title);
 
-        childTask.appendChild(createElement('img', subTaskElements.dropdownBtn));
-        childTask.appendChild(createElement('input', subTaskElements.checkbox));
-        childTask.appendChild(createElement('span', subTaskElements.taskName, title));
-        childTask.appendChild(createElement('img', subTaskElements.addChildBtn));
-        childTask.appendChild(createElement('img', subTaskElements.deleteTaskBtn));
-        childTask.appendChild(createElement('span', subTaskElements.taskDate, date))
-        childTask.appendChild(createElement('ul', subTaskElements.childList));
+        return setItemsLocalStorage();
+    };
 
-        return childList.appendChild(childTask)
-    }
+    function addTaskToDOM(title) {
+        const date = getDate();
 
-    addTitleTask(e)
-}
+        referenceChild.appendChild(createElement('img', subTaskElements.dropdownBtn));
+        referenceChild.appendChild(createElement('input', subTaskElements.checkbox));
+        referenceChild.appendChild(createElement('span', subTaskElements.taskName, title));
+        referenceChild.appendChild(createElement('img', subTaskElements.addChildBtn));
+        referenceChild.appendChild(createElement('img', subTaskElements.deleteTaskBtn));
+        referenceChild.appendChild(createElement('span', subTaskElements.taskDate, date))
+        referenceChild.appendChild(createElement('ul', subTaskElements.childList));
+
+        return referenceChild;
+    };
+
+    addTitleTask(e);
+};
 
 
 //Adiciona ao DOM, elementos para confirmações de valores
-function CreateSubTask(e) {
+function createSubTask(e) {
 
-    function createSubTask(e) {
+    function referenceTask(e) {
         const parentTask = e.target.parentElement;
 
         createElements(parentTask);
-    }
+    };
 
     function createElements(parentTask) {
         const childList = parentTask.querySelector('.child-list');
         const childTask = document.createElement('li');
         childTask.classList.add('child-item');
 
-        addTaskToDOM(childTask, childList)
+        addTaskToDOM(childTask, childList);
 
-        return
-    }
+        return referenceChild = childTask;
+    };
 
     function addTaskToDOM(childTask, childList) {
         childTask.appendChild(createElement('input', subTaskConfigs.input));
         childTask.appendChild(createElement('button', subTaskConfigs.button));
         childTask.appendChild(createElement('img', subTaskConfigs.imgDelete));
-        childTask.appendChild(createElement('ul', subTaskConfigs.childList));
 
         return childList.appendChild(childTask);
-    }
+    };
 
-    createSubTask(e)
-}
+    referenceTask(e);
+};
 
 
-//Validações, configurações de criações e persistencia de dados
+//Realização de validações, configurações de criações e inserção de dados no localStorage
 function createElement(type, config, title) {
     const element = document.createElement(type);
     if (config.class) element.classList.add(config.class);
@@ -214,7 +223,7 @@ function createElement(type, config, title) {
     if (config.placeholder) element.placeholder = config.placeholder;
 
     return element;
-}
+};
 
 const getDate = () => {
     const date = new Date();
@@ -223,7 +232,7 @@ const getDate = () => {
     const year = date.getFullYear();
 
     return `${day}/${month}/${year}`;
-}
+};
 
 function titleize(text) {
     let wordsArray = text.toLowerCase().split(" ");
@@ -231,30 +240,31 @@ function titleize(text) {
     let words = wordsArray.map((word) => {
         if (word.length === 1) {
             return word.toUpperCase() + ".";
-        }
+        };
+
         if (word.length === 2) {
-            return word;
+            ; return word;
         }
-            
+
         return word[0].toUpperCase() + word.slice(1);
     });
 
     return words.join(" ");
-}
+};
 
 const validateTaskTitle = (title) => {
     try {
-        runValidations(title)
+        runValidations(title);
     } catch (err) {
         return err
-    }
-}
+    };
+};
 
 const runValidations = (title) => {
     Object.keys(validations).forEach((key) => {
         validations[key](title);
     });
-}
+};
 
 const setItemsLocalStorage = () => localStorage.setItem('@tasklist:todo-list', JSON.stringify(taskList.innerHTML));
 
@@ -265,39 +275,100 @@ function dropdown(e) {
     childList.classList.toggle('show-children');
 
     const children = childList.querySelectorAll('li');
+
     for (let i = 0; i < children.length; i++) {
         children[i].classList.toggle('show-children');
-    }
+    };
 
     const dropdown = e.target.parentElement.querySelector('.dropdown-btn');
     dropdown.classList.toggle('show-children');
+};
+
+function checkBox(e) {
+
+    function checkBoxReference(e) {
+        const currentCheckbox = e.target;
+        const currentTask = currentCheckbox.closest("li");
+        const isChecked = currentCheckbox.checked;
+
+        checkChildCheckboxes(currentTask, isChecked);
+        updateParentCheckbox(currentTask, isChecked);
+    };
+
+    function checkChildCheckboxes(task, checked) {
+        const childCheckboxes = task.querySelectorAll("li input[type='checkbox']");
+        childCheckboxes.forEach(checkbox => checkbox.checked = checked);
+    };
+
+    function updateParentCheckbox(task, checked) {
+        const parentTask = task.parentElement.closest("li");
+
+        if (parentTask) {
+            const parentCheckbox = parentTask.querySelector("input[type='checkbox']");
+            const childTasks = parentTask.querySelectorAll("li");
+            let allChecked = true;
+            let someChecked = false;
+
+            for (const childTask of childTasks) {
+                const childCheckbox = childTask.querySelector("input[type='checkbox']");
+                if (childCheckbox.checked) {
+                    return someChecked = true;
+
+                }
+
+                return allChecked = false;
+            };
+
+            return updateParentCheckboxIfs(allChecked, someChecked, checked, parentCheckbox);
+        };
+    };
+
+    const updateParentCheckboxIfs = (allChecked, someChecked, checked, parentCheckbox) => {
+        if (allChecked) {
+            parentCheckbox.indeterminate = false;
+            parentCheckbox.checked = checked;
+        };
+
+        if (someChecked) {
+            parentCheckbox.indeterminate = true;
+            parentCheckbox.checked = false;
+        };
+
+        if (!allChecked && !someChecked) {
+            parentCheckbox.indeterminate = false;
+            parentCheckbox.checked = false;
+        };
+    };
+
+    checkBoxReference(e);
 }
 
-function TaskDeleter(e) {
+function taskDeleter(e) {
     function removeTask(e) {
         e.target.parentElement.remove();
-        return setItemsLocalStorage()
-    }
+        return setItemsLocalStorage();
+    };
 
-    removeTask(e)
-}
+    removeTask(e);
+};
 
 
+//Dados a serem recuperados do localStorage e enseridos ao DOM
 const getItemsLocalStorage = () => taskList.innerHTML = JSON.parse(localStorage.getItem('@tasklist:todo-list'));
 
 if (localStorage.getItem("@tasklist:todo-list")) {
-    getItemsLocalStorage()
-}
+    getItemsLocalStorage();
+};
 
 
 addTaskBtn.addEventListener("click", () => {
-    Task()
+    task();
 });
 
 taskList.addEventListener("click", (e) => {
     Object.entries(taskActions).forEach(([selector, action]) => {
         if (e.target.matches(selector)) {
             action(e);
-        }
+        };
     });
 });

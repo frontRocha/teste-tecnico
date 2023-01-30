@@ -121,8 +121,6 @@
 }
 
 .content-list ul {
-  display: flex;
-  flex-direction: column;
   list-style: none;
   padding: .40rem 0 0 1rem;
 }
@@ -154,7 +152,7 @@ ul.child-list li.show-children {
   top: -2px;
 }
 
-.child-item .dropdown-btn {
+.dropdown-btn {
   padding: 0 .2rem;
   position: relative;
   top: -4px;
