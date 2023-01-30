@@ -96,7 +96,7 @@ function task() {
         };
     };
 
-    async function createElements(title) {
+    function createElements(title) {
         const childTask = document.createElement('li');
         childTask.classList.add('child-item');
 
@@ -156,7 +156,7 @@ function subTasks(e) {
         return;
     };
 
-    async function createElements(title) {
+    function createElements(title) {
         addTaskToDOM(title);
 
         return setItemsLocalStorage();
