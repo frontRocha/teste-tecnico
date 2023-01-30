@@ -306,20 +306,19 @@ function checkBox(e) {
         if (parentTask) {
             const parentCheckbox = parentTask.querySelector("input[type='checkbox']");
             const childTasks = parentTask.querySelectorAll("li");
-            let allChecked = true;
+            let allChecked = false;
             let someChecked = false;
 
             for (const childTask of childTasks) {
                 const childCheckbox = childTask.querySelector("input[type='checkbox']");
                 if (childCheckbox.checked) {
-                    return someChecked = true;
-
+                    someChecked = true;
                 }
 
-                return allChecked = false;
+                allChecked = false;
             };
 
-            return updateParentCheckboxIfs(allChecked, someChecked, checked, parentCheckbox);
+            updateParentCheckboxIfs(allChecked, someChecked, checked, parentCheckbox);
         };
     };
 
