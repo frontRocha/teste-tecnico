@@ -9,17 +9,33 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400&display=swap" rel="stylesheet">
     <link href="/src/styles/style.css" rel="stylesheet">
     <title>Teste técnico - netdeal</title>
 </head>
 
 <body>
+    <div id="error-message" class="error-message">
+        <p id="error-message-text"></p>
+    </div>
     <section id="section">
         <div class="header">
             <h1>DESAFIO</h1>
             <img src="/src/assets/netdeal-logo.png" />
         </div>
         <div class="container">
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="title">Excluir</span>
+                    <span class="close">&times;</span>
+                    <p>Você tem certeza que deseja excluir esta tarefa?</p>
+                    <div class="buttons">
+                        <button id="cancel-btn">Cancelar</button>
+                        <button id="confirm-btn">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="form">
                 <div class="container-form">
                     <div class="content-form">
@@ -33,8 +49,10 @@
             </div>
         </div>
     </section>
-    <script src="/src/script/js.js"></script>
 
+    <script src="/src/script/main.js"></script>
+    <script src="/src/script/error.js"></script>
+    <script src="/src/script/modal.js"></script>
+    <script src="/src/script/popover.js"></script>
 </body>
-
 </html>

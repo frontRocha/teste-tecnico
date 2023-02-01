@@ -1,6 +1,5 @@
 const addTaskBtn = document.querySelector('#add-task');
 const taskList = document.querySelector('#todo-list');
-const subTaskList = document.querySelector('.child-list');
 
 const imgDelete = '/src/assets/trash.png'
 const imgDropdownButton = '/src/assets/dropdown.png'
@@ -21,7 +20,6 @@ const taskActions = {
     '.add-child': createSubTask,
     '.confirm-name-btn': subTasks,
     'input[type="checkbox"]': checkBox,
-    '.delete-task': taskDeleter,
     '.dropdown-btn': dropdown
 };
 
@@ -60,11 +58,12 @@ const subTaskElements = {
     taskName: {
         type: 'text',
         text: '',
+        class: 'text'
     },
     addChildBtn: {
         type: 'img',
         src: imgAdd,
-        class: 'add-child'
+        class: 'add-child',
     },
     deleteTaskBtn: {
         type: 'img',
@@ -73,7 +72,7 @@ const subTaskElements = {
     },
     childList: {
         class: 'child-list'
-    }
+    },
 };
 
 
@@ -107,13 +106,14 @@ function task() {
 
     function addTaskToDOM(childTask, title) {
         const date = getDate();
+        const dateFormat = `Adicionado em: ${date}`
 
         childTask.appendChild(createElement('img', subTaskElements.dropdownBtn));
         childTask.appendChild(createElement('input', subTaskElements.checkbox));
         childTask.appendChild(createElement('span', subTaskElements.taskName, title));
         childTask.appendChild(createElement('img', subTaskElements.addChildBtn));
         childTask.appendChild(createElement('img', subTaskElements.deleteTaskBtn));
-        childTask.appendChild(createElement('span', subTaskElements.taskDate, date));
+        childTask.appendChild(createElement('span', subTaskElements.taskDate, dateFormat));
         childTask.appendChild(createElement('ul', subTaskElements.childList));
 
         return taskList.appendChild(childTask);
@@ -164,16 +164,17 @@ function subTasks(e) {
 
     function addTaskToDOM(title) {
         const date = getDate();
+        const dateFormat = `Adicionado em: ${date}`
 
         referenceChild.appendChild(createElement('img', subTaskElements.dropdownBtn));
         referenceChild.appendChild(createElement('input', subTaskElements.checkbox));
         referenceChild.appendChild(createElement('span', subTaskElements.taskName, title));
         referenceChild.appendChild(createElement('img', subTaskElements.addChildBtn));
         referenceChild.appendChild(createElement('img', subTaskElements.deleteTaskBtn));
-        referenceChild.appendChild(createElement('span', subTaskElements.taskDate, date))
+        referenceChild.appendChild(createElement('span', subTaskElements.taskDate, dateFormat))
         referenceChild.appendChild(createElement('ul', subTaskElements.childList));
 
-        return referenceChild;
+        return referenceChild = null;
     };
 
     addTitleTask(e);
@@ -190,6 +191,12 @@ function createSubTask(e) {
     };
 
     function createElements(parentTask) {
+        const checkForButton = document.querySelectorAll('.confirm-name-btn')
+
+        if(checkForButton.length) {
+            return
+        }
+
         const childList = parentTask.querySelector('.child-list');
         const childTask = document.createElement('li');
         childTask.classList.add('child-item');
@@ -210,66 +217,7 @@ function createSubTask(e) {
     referenceTask(e);
 };
 
-
-//Realização de validações, configurações de criações e inserção de dados no localStorage
-function createElement(type, config, title) {
-    const element = document.createElement(type);
-    if (config.class) element.classList.add(config.class);
-    if (config.src) element.src = config.src;
-    if (config.text) element.textContent = config.text;
-    if (title) element.textContent = title;
-    if (config.onClick) element.onclick = config.onClick;
-    if (config.type) element.type = config.type;
-    if (config.placeholder) element.placeholder = config.placeholder;
-
-    return element;
-};
-
-const getDate = () => {
-    const date = new Date();
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-};
-
-function titleize(text) {
-    let wordsArray = text.toLowerCase().split(" ");
-
-    let words = wordsArray.map((word) => {
-        if (word.length === 1) {
-            return word.toUpperCase() + ".";
-        };
-
-        if (word.length === 2) {
-            ; return word;
-        }
-
-        return word[0].toUpperCase() + word.slice(1);
-    });
-
-    return words.join(" ");
-};
-
-const validateTaskTitle = (title) => {
-    try {
-        runValidations(title);
-    } catch (err) {
-        return err
-    };
-};
-
-const runValidations = (title) => {
-    Object.keys(validations).forEach((key) => {
-        validations[key](title);
-    });
-};
-
-const setItemsLocalStorage = () => localStorage.setItem('@tasklist:todo-list', JSON.stringify(taskList.innerHTML));
-
-
-//Funcionalidades complementares
+//
 function dropdown(e) {
     const childList = e.target.parentElement.querySelector('.child-list');
     childList.classList.toggle('show-children');
@@ -318,6 +266,7 @@ function checkBox(e) {
                 allChecked = false;
             };
 
+
             updateParentCheckboxIfs(allChecked, someChecked, checked, parentCheckbox);
         };
     };
@@ -342,14 +291,65 @@ function checkBox(e) {
     checkBoxReference(e);
 }
 
-function taskDeleter(e) {
-    function removeTask(e) {
-        e.target.parentElement.remove();
-        return setItemsLocalStorage();
-    };
 
-    removeTask(e);
+//Realização de validações, configurações de criações e inserção de dados no localStorage
+function createElement(type, config, title) {
+    const element = document.createElement(type);
+    if (config.class) element.classList.add(config.class);
+    if (config.src) element.src = config.src;
+    if (config.text) element.textContent = config.text;
+    if (title) element.textContent = title;
+    if (config.onClick) element.onclick = config.onClick;
+    if (config.type) element.type = config.type;
+    if (config.placeholder) element.placeholder = config.placeholder;
+
+    return element;
 };
+
+const getDate = () => {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+};
+
+function titleize(text) {
+    let wordsArray = text.toLowerCase().split(" ");
+
+    let words = wordsArray.map((word) => {
+        if (word.length === 1) {
+            return word.toUpperCase() + ".";
+        };
+
+        if (word.length === 2) {
+            ; return word;
+        }
+
+        return word[0].toUpperCase() + word.slice(1);
+    });
+
+    return words.join(" ");
+};
+
+const validateTaskTitle = (title) => {
+    try {
+        runValidations(title);
+    } catch (err) {
+        showErrorMessage(err);
+        setTimeout(hideErrorMessage, 2000);
+        return err
+    };
+};
+
+const runValidations = (title) => {
+    Object.keys(validations).forEach((key) => {
+        validations[key](title);
+    });
+};
+
+const setItemsLocalStorage = () => localStorage.setItem('@tasklist:todo-list', JSON.stringify(taskList.innerHTML));
 
 
 //Dados a serem recuperados do localStorage e enseridos ao DOM
