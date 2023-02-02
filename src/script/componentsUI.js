@@ -35,6 +35,8 @@ function taskDeleter(e) {
     }
 
     function confirmDelete(e) {
+        taskList.style.display = 'none'
+        loaderList.style.display = 'flex'
 
         function removeTask(e) {
             e.target.parentElement.remove();
@@ -43,6 +45,7 @@ function taskDeleter(e) {
 
         removeTask(e);
         modal.style.display = 'none'
+
     }
 
     const cancelDelete = () => {
@@ -113,7 +116,14 @@ taskList.addEventListener("click", (e) => {
 
 taskList.addEventListener("mousedown", (e) => {
     if (e.shiftKey && e.button === 0) {
+        taskList.style.display = 'none'
+        loaderList.style.display = 'flex'
+
         e.target.parentElement.remove();
+
+        taskList.style.display = 'block'
+        loaderList.style.display = 'none'
+
         return setItemsLocalStorage();
     }
 });

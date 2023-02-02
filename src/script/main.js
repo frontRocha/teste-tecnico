@@ -1,3 +1,4 @@
+const loaderList = document.querySelector('#loaderList')
 const messageInital = document.querySelector('.messageInitial')
 const addTaskBtn = document.querySelector('#add-task');
 const taskList = document.querySelector('#todo-list');
@@ -99,6 +100,9 @@ function task() {
         const resultValidate = await validateTaskTitle(title);
 
         if (!resultValidate) {
+            taskList.style.display = 'none'
+            loaderList.style.display = 'flex'
+
             const translateTitle = titleize(title);
             createElements(translateTitle);
         };
@@ -109,6 +113,9 @@ function task() {
         childTask.classList.add('child-item');
 
         addTaskToDOM(childTask, title);
+
+        taskList.style.display = 'block'
+        loaderList.style.display = 'none'
 
         return setItemsLocalStorage();
     };
@@ -149,6 +156,9 @@ function subTasks(e) {
         const resultValidate = await validateTaskTitle(title);
 
         if (!resultValidate) {
+            taskList.style.display = 'none'
+            loaderList.style.display = 'flex'
+
             removeElementsToConfirm(parentTask);
 
             const translateTitle = titleize(title);
@@ -165,6 +175,9 @@ function subTasks(e) {
     function createElements(title) {
         addTaskToDOM(title);
 
+        taskList.style.display = 'block'
+        loaderList.style.display = 'none'
+
         return setItemsLocalStorage();
     };
 
@@ -179,6 +192,7 @@ function subTasks(e) {
         referenceChild.appendChild(createElement('span', subTaskElements.taskDate, date));
         referenceChild.appendChild(createElement('ul', subTaskElements.childList));
 
+        loaderList.style.display = 'flex'
         return referenceChild = null;
     };
 
