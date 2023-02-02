@@ -101,6 +101,8 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     shiftObs.style.display = 'block'
 }
 
+
+//Monitoramento de ações
 taskList.addEventListener("click", (e) => {
     Object.entries(actionDelete).forEach(([selector, action]) => {
         if (e.target.matches(selector)) {
@@ -109,8 +111,6 @@ taskList.addEventListener("click", (e) => {
     });
 });
 
-
-//Função de exclusão através de atalhos
 taskList.addEventListener("mousedown", (e) => {
     if (e.shiftKey && e.button === 0) {
         e.target.parentElement.remove();

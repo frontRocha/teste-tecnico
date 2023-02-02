@@ -14,6 +14,13 @@ const validations = {
     },
     checkMinLength: (title) => {
         if (title.length < 4) throw new Error('Digite algo válido');
+    },
+    checkMaxLength: (title) => {
+        if (title.length > 50) throw new Error('Limite de caracteres atingido');
+    },
+    checkForScripts: (title) => {
+        const pattern = /^[a-zA-Z0-9\s]+$/;
+        if (!pattern.test(title)) throw new Error('Entrada inválida');
     }
 };
 
@@ -279,12 +286,12 @@ function checkBox(e) {
         if (someChecked) {
             parentCheckbox.indeterminate = true;
             parentCheckbox.checked = false;
-        };
+        }
 
         if (!allChecked && !someChecked) {
             parentCheckbox.indeterminate = false;
             parentCheckbox.checked = false;
-        };
+        }
     };
 
     checkBoxReference(e);
@@ -359,6 +366,8 @@ const setItemsLocalStorage = () => {
     setMessageInitial()
 }
 
+
+//Manipulando elemento para lista vazia
 const setMessageInitial = () => {
 
     if (taskList.hasChildNodes()) {
