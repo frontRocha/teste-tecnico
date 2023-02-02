@@ -369,6 +369,7 @@ ul.child-list li.show-children {
 }
 
 .child-item .text {
+  padding-right: 0.80rem;
   color: #2f384f;
   z-index: 1;
   cursor: pointer;
@@ -424,9 +425,10 @@ ul.child-list li.show-children {
 }
 
 .dropdown-btn {
-  padding: 0 0.2rem;
+  margin: 0 .8rem 0 .2rem;
+  width: 9px;
   position: relative;
-  top: -4px;
+  top: -3px;
   cursor: pointer;
   transform: rotate(0deg);
 }
