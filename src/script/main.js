@@ -1,3 +1,4 @@
+const messageInital = document.querySelector('.messageInitial')
 const addTaskBtn = document.querySelector('#add-task');
 const taskList = document.querySelector('#todo-list');
 
@@ -349,7 +350,19 @@ const runValidations = (title) => {
     });
 };
 
-const setItemsLocalStorage = () => localStorage.setItem('@tasklist:todo-list', JSON.stringify(taskList.innerHTML));
+const setItemsLocalStorage = () => {
+    localStorage.setItem('@tasklist:todo-list', JSON.stringify(taskList.innerHTML));
+    setMessageInitial()
+}
+
+const setMessageInitial = () => {
+    if(taskList.hasChildNodes()) {
+        messageInital.style.display = 'none'
+        return 
+    }
+
+    return messageInital.style.display = 'flex'
+}
 
 
 //Dados a serem recuperados do localStorage e enseridos ao DOM
@@ -357,7 +370,8 @@ const getItemsLocalStorage = () => taskList.innerHTML = JSON.parse(localStorage.
 
 if (localStorage.getItem("@tasklist:todo-list")) {
     getItemsLocalStorage();
-};
+    setMessageInitial()
+}
 
 addTaskBtn.addEventListener("click", () => {
     task();
