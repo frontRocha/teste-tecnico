@@ -14,7 +14,7 @@ const actionDelete = {
 
 function taskDeleter(e) {
 
-    function openModal() {
+    const openModal = () => {
         modal.style.display = 'block'
 
         btnConfirm.addEventListener('click', () => {
@@ -41,7 +41,7 @@ function taskDeleter(e) {
         modal.style.display = 'none'
     }
 
-    function cancelDelete() {
+    const cancelDelete = () => {
         modal.style.display = 'none'
     }
 
@@ -51,35 +51,54 @@ function taskDeleter(e) {
 
 
 function showErrorMessage(message) {
-  errorMessageText.textContent = message;
-  errorMessage.style.visibility = "visible";
+    errorMessageText.textContent = message;
+    errorMessage.style.visibility = "visible";
 }
 
 function hideErrorMessage() {
-  errorMessage.style.visibility = "hidden";
+    errorMessage.style.visibility = "hidden";
 }
 
 
 function showPopover(e) {
-    const item = e.target.parentElement.querySelector('.date')
-    const allItems = document.querySelectorAll('.date')
+    const selectItems = () => {
+        const item = e.target.parentElement.querySelector('.date')
+        const allItems = document.querySelectorAll('.date')
+        verifyClassContainsItems(item, allItems)
+    }
 
-    if (!item.classList.contains('show')) {
-        allItems.forEach(element => {
-            if (element.classList.contains('show')) {
-                element.classList.remove('show')
-            }
-        })
+    const verifyClassContainsItems = (item, allItems) => {
+        if (!item.classList.contains('show')) {
+            allItems.forEach(element => {
+                if (element.classList.contains('show')) {
+                    element.classList.remove('show')
+                }
+            })
 
-        item.classList.add('show')
+            item.classList.add('show')
 
-        return setItemsLocalStorage()
-    }  
+            removeVisibleToDOM(item)
+            return 
+        }
 
-    item.classList.remove('show')
-    
-    setItemsLocalStorage()
+        item.classList.remove('show')
+        removeVisibleToDOM(item)
+        return
+    }
+
+    const removeVisibleToDOM = (item) => {
+        if(item.classList.contains('show')) {
+            setTimeout(() => {
+                item.classList.remove('show')
+            }, 4000)
+
+            return
+        }
+    }
+
+    selectItems()
 }
+
 
 taskLists.addEventListener("click", (e) => {
     Object.entries(actionDelete).forEach(([selector, action]) => {
@@ -87,4 +106,11 @@ taskLists.addEventListener("click", (e) => {
             action(e);
         };
     });
+});
+
+taskLists.addEventListener("mousedown", (e) => {
+    if (e.shiftKey && e.button === 0) {
+        e.target.parentElement.remove();
+        return setItemsLocalStorage();
+    }
 });

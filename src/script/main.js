@@ -359,7 +359,6 @@ if (localStorage.getItem("@tasklist:todo-list")) {
     getItemsLocalStorage();
 };
 
-
 addTaskBtn.addEventListener("click", () => {
     task();
 });
@@ -370,4 +369,18 @@ taskList.addEventListener("click", (e) => {
             action(e);
         };
     });
+});
+
+document.addEventListener("keydown", (e) => {
+    if(e.key === 'Enter' && document.querySelector('#task-input').value.length) {
+        task();
+        return
+    }
+});
+
+taskList.addEventListener("keydown", (e) => {
+    if(e.key === 'Enter' && e.target.parentElement.querySelector('.task-name-input').value.length) {
+        subTasks(e);
+        return
+    }
 });
