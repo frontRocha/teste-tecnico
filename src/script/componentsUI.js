@@ -40,12 +40,15 @@ function taskDeleter(e) {
 
         function removeTask(e) {
             e.target.parentElement.remove();
+
+            taskList.style.display = 'block'
+            loaderList.style.display = 'none'
+
             return setItemsLocalStorage();
         };
 
         removeTask(e);
         modal.style.display = 'none'
-
     }
 
     const cancelDelete = () => {
