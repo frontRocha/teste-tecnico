@@ -343,7 +343,7 @@ const validateTaskTitle = (title) => {
     try {
         runValidations(title);
     } catch (err) {
-        showErrorMessage(err);
+        showErrorMessage(err.message);
         setTimeout(hideErrorMessage, 2000);
         return err
     };
@@ -356,10 +356,10 @@ const runValidations = (title) => {
 };
 
 const setItemsLocalStorage = () => {
-    const teste = taskList.querySelector('.show')
+    const initalizeElementPopover = taskList.querySelector('.show')
 
-    if (teste) {
-        teste.classList.remove('show')
+    if (initalizeElementPopover) {
+        initalizeElementPopover.classList.remove('show')
     }
 
     localStorage.setItem('@tasklist:todo-list', JSON.stringify(taskList.innerHTML));
