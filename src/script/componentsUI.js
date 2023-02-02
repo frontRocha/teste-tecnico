@@ -83,7 +83,7 @@ function showPopover(e) {
 
             item.classList.add('show')
 
-            return 
+            return
         }
 
         item.classList.remove('show')
@@ -95,7 +95,7 @@ function showPopover(e) {
 
 
 //Verificação para dispositivos móveis
-if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     shiftObs.style.display = 'none'
 } else {
     shiftObs.style.display = 'block'

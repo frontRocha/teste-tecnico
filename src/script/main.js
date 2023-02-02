@@ -191,7 +191,7 @@ function createSubTask(e) {
     function createElements(parentTask) {
         const checkForButton = document.querySelectorAll('.confirm-name-btn')
 
-        if(checkForButton.length) {
+        if (checkForButton.length) {
             return
         }
 
@@ -351,7 +351,7 @@ const runValidations = (title) => {
 const setItemsLocalStorage = () => {
     const teste = taskList.querySelector('.show')
 
-    if(teste){
+    if (teste) {
         teste.classList.remove('show')
     }
 
@@ -360,10 +360,10 @@ const setItemsLocalStorage = () => {
 }
 
 const setMessageInitial = () => {
-    
-    if(taskList.hasChildNodes()) {
+
+    if (taskList.hasChildNodes()) {
         messageInital.style.display = 'none'
-        return 
+        return
     }
 
     return messageInital.style.display = 'flex'
@@ -373,7 +373,7 @@ const setMessageInitial = () => {
 //Dados a serem recuperados do localStorage e enseridos ao DOM
 const getItemsLocalStorage = () => {
     taskList.innerHTML = JSON.parse(localStorage.getItem('@tasklist:todo-list'));
-} 
+}
 
 if (localStorage.getItem("@tasklist:todo-list")) {
     getItemsLocalStorage();
@@ -395,14 +395,14 @@ taskList.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
-    if(e.key === 'Enter' && document.querySelector('#task-input').value.length) {
+    if (e.key === 'Enter' && document.querySelector('#task-input').value.length) {
         task();
         return
     }
 });
 
 taskList.addEventListener("keydown", (e) => {
-    if(e.key === 'Enter' && e.target.parentElement.querySelector('.task-name-input').value.length) {
+    if (e.key === 'Enter' && e.target.parentElement.querySelector('.task-name-input').value.length) {
         subTasks(e);
         return
     }
