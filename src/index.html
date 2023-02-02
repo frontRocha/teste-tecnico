@@ -20,9 +20,11 @@
 </head>
 
 <body>
-    
     <section id="section">
-        <div class="container">
+        <div id="loader">
+            <div class="loading"></div>
+          </div>
+        <div id="container" class="container">
             <div class="header">
                 <h1>DESAFIO</h1>
                 <img src="./assets/netdeal-logo.png" />
@@ -36,7 +38,7 @@
                         <button id="cancel-btn">Cancelar</button>
                         <button id="confirm-btn">Confirmar</button>
                     </div>
-                    <span class="obs">Pressione shift junto ao mouse para excluir sem modal</span>
+                    <span class="obs">Pressione shift junto ao mouse para excluir de forma direta</span>
                 </div>
             </div>
             <div class="form">
@@ -56,6 +58,15 @@
 
     <script src="./script/main.js"></script>
     <script src="./script/componentsUI.js"></script>
+    <script>
+        window.onload = () => {
+            const loader = document.getElementById("loader");
+            const content = document.getElementById("container");
+
+            loader.style.display = "none";
+            content.style.display = "flex";
+        };
+    </script>
 </body>
 
 </html>

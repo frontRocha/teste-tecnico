@@ -1,4 +1,3 @@
-const taskLists = document.querySelector('#todo-list');
 const modal = document.querySelector('.modal')
 const btnConfirm = document.querySelector('#confirm-btn')
 const btnCancel = document.querySelector('#cancel-btn')
@@ -114,7 +113,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
     shiftObs.style.display = 'block'
 }
 
-taskLists.addEventListener("click", (e) => {
+taskList.addEventListener("click", (e) => {
     Object.entries(actionDelete).forEach(([selector, action]) => {
         if (e.target.matches(selector)) {
             action(e);
@@ -124,7 +123,7 @@ taskLists.addEventListener("click", (e) => {
 
 
 //Função de exclusão através de atalhos
-taskLists.addEventListener("mousedown", (e) => {
+taskList.addEventListener("mousedown", (e) => {
     if (e.shiftKey && e.button === 0) {
         e.target.parentElement.remove();
         return setItemsLocalStorage();
