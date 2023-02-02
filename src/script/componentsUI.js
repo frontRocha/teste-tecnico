@@ -3,15 +3,20 @@ const modal = document.querySelector('.modal')
 const btnConfirm = document.querySelector('#confirm-btn')
 const btnCancel = document.querySelector('#cancel-btn')
 const btnClose = document.querySelector('.close')
+const shiftObs = document.querySelector('.obs')
 
 const errorMessage = document.getElementById("error-message");
 const errorMessageText = document.getElementById("error-message-text");
 
+
+//Objeto de funções
 const actionDelete = {
     '.delete-task': taskDeleter,
     '.text': showPopover
 };
 
+
+//Função de exclusão através do modal
 function taskDeleter(e) {
 
     const openModal = () => {
@@ -50,6 +55,7 @@ function taskDeleter(e) {
 };
 
 
+//Notificação de erro ao titulo errado
 function showErrorMessage(message) {
     errorMessageText.textContent = message;
     errorMessage.style.visibility = "visible";
@@ -60,6 +66,7 @@ function hideErrorMessage() {
 }
 
 
+//Exibição de popover
 function showPopover(e) {
     const selectItems = () => {
         const item = e.target.parentElement.querySelector('.date')
@@ -100,6 +107,13 @@ function showPopover(e) {
 }
 
 
+//Verificação para dispositivos móveis
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    shiftObs.style.display = 'none'
+} else {
+    shiftObs.style.display = 'block'
+}
+
 taskLists.addEventListener("click", (e) => {
     Object.entries(actionDelete).forEach(([selector, action]) => {
         if (e.target.matches(selector)) {
@@ -108,6 +122,8 @@ taskLists.addEventListener("click", (e) => {
     });
 });
 
+
+//Função de exclusão através de atalhos
 taskLists.addEventListener("mousedown", (e) => {
     if (e.shiftKey && e.button === 0) {
         e.target.parentElement.remove();
