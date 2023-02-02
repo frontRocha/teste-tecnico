@@ -216,7 +216,7 @@ function createSubTask(e) {
             return
         }
 
-        dropdown(e)
+        dropdownOnCreate(e)
 
         const childList = parentTask.querySelector('.child-list');
         const childTask = document.createElement('li');
@@ -225,6 +225,16 @@ function createSubTask(e) {
         addTaskToDOM(childTask, childList);
 
         return referenceChild = childTask;
+    };
+
+    function dropdownOnCreate(e) {
+        const dropdownElement = e.target.parentElement.querySelector('.dropdown-btn');
+        
+        if(dropdownElement.classList.contains('show-children')) {
+            dropdown(e);
+        };
+
+        return;
     };
 
     function addTaskToDOM(childTask, childList) {
