@@ -83,23 +83,11 @@ function showPopover(e) {
 
             item.classList.add('show')
 
-            removeVisibleToDOM(item)
             return 
         }
 
         item.classList.remove('show')
-        removeVisibleToDOM(item)
         return
-    }
-
-    const removeVisibleToDOM = (item) => {
-        if(item.classList.contains('show')) {
-            setTimeout(() => {
-                item.classList.remove('show')
-            }, 4000)
-
-            return
-        }
     }
 
     selectItems()

@@ -55,6 +55,7 @@ const subTaskElements = {
     taskDate: {
         title: '',
         class: 'date',
+        onClick: 'showPopover()'
     },
     taskName: {
         type: 'text',
@@ -107,14 +108,13 @@ function task() {
 
     function addTaskToDOM(childTask, title) {
         const date = getDate();
-        const dateFormat = `Adicionado em: ${date}`
 
         childTask.appendChild(createElement('img', subTaskElements.dropdownBtn));
         childTask.appendChild(createElement('input', subTaskElements.checkbox));
         childTask.appendChild(createElement('span', subTaskElements.taskName, title));
         childTask.appendChild(createElement('img', subTaskElements.addChildBtn));
         childTask.appendChild(createElement('img', subTaskElements.deleteTaskBtn));
-        childTask.appendChild(createElement('span', subTaskElements.taskDate, dateFormat));
+        childTask.appendChild(createElement('span', subTaskElements.taskDate, date));
         childTask.appendChild(createElement('ul', subTaskElements.childList));
 
         return taskList.appendChild(childTask);
@@ -163,14 +163,13 @@ function subTasks(e) {
 
     function addTaskToDOM(title) {
         const date = getDate();
-        const dateFormat = `Adicionado em: ${date}`
 
         referenceChild.appendChild(createElement('img', subTaskElements.dropdownBtn));
         referenceChild.appendChild(createElement('input', subTaskElements.checkbox));
         referenceChild.appendChild(createElement('span', subTaskElements.taskName, title));
         referenceChild.appendChild(createElement('img', subTaskElements.addChildBtn));
         referenceChild.appendChild(createElement('img', subTaskElements.deleteTaskBtn));
-        referenceChild.appendChild(createElement('span', subTaskElements.taskDate, dateFormat))
+        referenceChild.appendChild(createElement('span', subTaskElements.taskDate, date));
         referenceChild.appendChild(createElement('ul', subTaskElements.childList));
 
         return referenceChild = null;
@@ -312,7 +311,7 @@ const getDate = () => {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
-    return `${day}/${month}/${year}`;
+    return `Adicionado em: ${day}/${month}/${year}`;
 };
 
 function titleize(text) {
@@ -350,11 +349,18 @@ const runValidations = (title) => {
 };
 
 const setItemsLocalStorage = () => {
+    const teste = taskList.querySelector('.show')
+
+    if(teste){
+        teste.classList.remove('show')
+    }
+
     localStorage.setItem('@tasklist:todo-list', JSON.stringify(taskList.innerHTML));
     setMessageInitial()
 }
 
 const setMessageInitial = () => {
+    
     if(taskList.hasChildNodes()) {
         messageInital.style.display = 'none'
         return 
@@ -365,13 +371,17 @@ const setMessageInitial = () => {
 
 
 //Dados a serem recuperados do localStorage e enseridos ao DOM
-const getItemsLocalStorage = () => taskList.innerHTML = JSON.parse(localStorage.getItem('@tasklist:todo-list'));
+const getItemsLocalStorage = () => {
+    taskList.innerHTML = JSON.parse(localStorage.getItem('@tasklist:todo-list'));
+} 
 
 if (localStorage.getItem("@tasklist:todo-list")) {
     getItemsLocalStorage();
     setMessageInitial()
 }
 
+
+//Monitoramento de ações
 addTaskBtn.addEventListener("click", () => {
     task();
 });
