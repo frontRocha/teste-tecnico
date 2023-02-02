@@ -150,9 +150,7 @@ function subTasks(e) {
     };
 
     function removeElementsToConfirm(parentTask) {
-        parentTask.querySelector('.task-name-input').remove();
-        parentTask.querySelector('.confirm-name-btn').remove();
-        parentTask.querySelector('.delete-task').remove();
+        Array.from(parentTask.querySelectorAll('.task-name-input, .confirm-name-btn, .delete-task')).forEach(element => element.remove());
 
         return;
     };
@@ -218,7 +216,8 @@ function createSubTask(e) {
     referenceTask(e);
 };
 
-//
+
+//Funções complementares
 function dropdown(e) {
     const childList = e.target.parentElement.querySelector('.child-list');
     childList.classList.toggle('show-children');
