@@ -304,7 +304,7 @@
   padding: var(--small-measure) 0 0;
 }
 
-ul.child-list li.show-children {
+.content-list ul.show-children {
   display: none;
 }
 
