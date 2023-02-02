@@ -63,8 +63,10 @@
             const loader = document.getElementById("loader");
             const content = document.getElementById("container");
 
-            loader.style.display = "none";
-            content.style.display = "flex";
+            setTimeout(() => {
+                loader.style.display = "none";
+                content.style.display = "flex";
+            }, 1000)
         };
     </script>
 </body>
