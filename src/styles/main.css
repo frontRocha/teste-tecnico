@@ -404,18 +404,18 @@ ul.child-list li.show-children {
   color: var(--color-secondary);
   font-size: .7rem;
   font-family: "Poppins";
-  position: relative;
   background: var(--color-primary);
-  transform: translate(-130%, -120%);
   padding: .2rem var(--small-measure);
   border-radius: 10px;
   transition-duration: .2s;
   z-index: 0;
 }
 
-.child-item .date.show {
+.child-item .show {
   visibility: visible;
   opacity: 1;
+  position: relative;
+  transform: translate(-130%, -120%);
 }
 
 .child-item .date::before {
