@@ -7,11 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400&family=Raleway:wght@100;200;300;400;500&display=swap"
         rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400&display=swap" rel="stylesheet">
     <link href="./styles/main.css" rel="stylesheet">
-    <title>Teste técnico - netdeal</title>
+    
+    <link rel="icon" href="https://netdealstore.com.br/api/images/proxy?quality=100&amp;src=https://s3.amazonaws.com/producao.spayce.com.br/1638975755637_favicon.png" type="image/x-icon">
+
+    <title>Teste técnico - Netdeal</title>
 </head>
 
 <body>
@@ -19,11 +22,12 @@
         <p id="error-message-text"></p>
     </div>
     <section id="section">
-        <div class="header">
-            <h1>DESAFIO</h1>
-            <img src="/src/assets/netdeal-logo.png" />
-        </div>
+        
         <div class="container">
+            <div class="header">
+                <h1>DESAFIO</h1>
+                <img src="./assets/netdeal-logo.png" />
+            </div>
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <span class="title">Excluir</span>
@@ -35,7 +39,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form">
                 <div class="container-form">
                     <div class="content-form">
@@ -44,15 +47,13 @@
                     </div>
                 </div>
             </div>
-            <div class="content-list">
-                <ul id="todo-list"></ul>
-            </div>
+            <ul class="content-list" id="todo-list"></ul>
         </div>
+        
     </section>
 
     <script src="./script/main.js"></script>
-    <script src="./script/error.js"></script>
-    <script src="./script/modal.js"></script>
-    <script src="./script/popover.js"></script>
+    <script src="./script/componentsUI.js"></script>
 </body>
+
 </html>

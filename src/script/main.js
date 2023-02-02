@@ -1,9 +1,9 @@
 const addTaskBtn = document.querySelector('#add-task');
 const taskList = document.querySelector('#todo-list');
 
-const imgDelete = './assets/trash.png'
-const imgDropdownButton = './assets/dropdown.png'
-const imgAdd = './assets/add.png'
+const imgDelete = './assets/trash.ico'
+const imgDropdownButton = './assets/dropdown.ico'
+const imgAdd = './assets/add.ico'
 
 
 //Objetos de funções, validações e atributos de elementos

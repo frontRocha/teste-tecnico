@@ -26,6 +26,15 @@
   color: var(--color-primary);
 }
 
+@media screen and (max-width: 500px) {
+  .header {
+    flex-direction: column;
+  }
+  .header h1 {
+    font-size: 1.8rem;
+  }
+}
+
 .header img {
   width: 40%;
   max-width: 295px;
@@ -50,15 +59,16 @@
 #section {
   width: var(--full);
   min-height: 100vh;
+  height: auto;
   background-color: #f6f6f6;
   font-family: var(--font-primary);
 }
 
 .container {
   max-width: 1000px;
-  width: 80%;
+  height: 100vh;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -205,15 +215,16 @@
 }
 
 .content-list {
-  width: var(--full);
-  min-height: 400px;
   max-height: 400px;
+  min-height: 400px;
+  max-width: 1000px;
+  width: 100%;
+  overflow: scroll;
   background-color: #e1e1e1;
   border: 1px solid #e1e1e1;
-  padding: 2rem 1rem;
-  margin: 0.8rem;
   border-radius: 0.8rem;
-  overflow: scroll;
+  padding: 1rem;
+  margin: 1rem;
 }
 
 .content-list::-webkit-scrollbar-track {
@@ -247,6 +258,7 @@ ul.child-list li.show-children {
   color: var(--color-primary);
   display: block;
   white-space: nowrap;
+  padding: 1rem;
 }
 
 .child-item::before {
@@ -338,9 +350,9 @@ ul.child-list li.show-children {
   color: white;
   font-size: 0.7rem;
   font-family: "Poppins";
-  position: absolute;
+  position: relative;
   background: var(--color-primary);
-  transform: translate(-120%, -100%);
+  transform: translate(-130%, -120%);
   padding: 0.2rem 1rem;
   border-radius: 10px;
   transition-duration: 0.2s;
