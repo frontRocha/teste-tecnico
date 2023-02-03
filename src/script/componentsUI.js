@@ -3,6 +3,7 @@ const btnConfirm = document.querySelector('#confirm-btn')
 const btnCancel = document.querySelector('#cancel-btn')
 const btnClose = document.querySelector('.close')
 const shiftObs = document.querySelector('.obs')
+const btnDelete = document.querySelector('.delete-task')
 
 const errorMessage = document.getElementById("error-message");
 const errorMessageText = document.getElementById("error-message-text");
@@ -34,11 +35,11 @@ function taskDeleter(e) {
         })
     }
 
-    function confirmDelete(e) {
+    function confirmDelete() {
         taskList.style.display = 'none'
         loaderList.style.display = 'flex'
 
-        function removeTask(e) {
+        function removeTask() {
             e.target.parentElement.remove();
 
             taskList.style.display = 'block'
@@ -47,7 +48,7 @@ function taskDeleter(e) {
             return setItemsLocalStorage();
         };
 
-        removeTask(e);
+        removeTask();
         modal.style.display = 'none'
     }
 
@@ -55,8 +56,7 @@ function taskDeleter(e) {
         modal.style.display = 'none'
     }
 
-    openModal(e)
-
+    openModal()
 };
 
 
@@ -88,7 +88,6 @@ function showPopover(e) {
             })
 
             item.classList.add('show')
-
             return
         }
 
@@ -117,8 +116,9 @@ taskList.addEventListener("click", (e) => {
     });
 });
 
+
 taskList.addEventListener("mousedown", (e) => {
-    if (e.shiftKey && e.button === 0) {
+    if (e.shiftKey && e.button === 0 && e.target.classList.contains('delete-task')) {
         taskList.style.display = 'none'
         loaderList.style.display = 'flex'
 

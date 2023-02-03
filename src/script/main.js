@@ -144,7 +144,7 @@ let referenceChild;
 //Elementos filhos
 function subTasks(e) {
 
-    function addTitleTask(e) {
+    function addTitleTask() {
         const parentTask = e.target.parentElement;
 
         const taskName = parentTask.querySelector('.task-name-input').value;
@@ -196,14 +196,14 @@ function subTasks(e) {
         return referenceChild = null;
     };
 
-    addTitleTask(e);
+    addTitleTask();
 };
 
 
 //Adiciona ao DOM, elementos para confirmações de valores
 function createSubTask(e) {
 
-    function referenceTask(e) {
+    function referenceTask() {
         const parentTask = e.target.parentElement;
 
         createElements(parentTask);
@@ -227,7 +227,7 @@ function createSubTask(e) {
         return referenceChild = childTask;
     };
 
-    function dropdownOnCreate(e) {
+    function dropdownOnCreate() {
         const dropdownElement = e.target.parentElement.querySelector('.dropdown-btn');
         
         if(dropdownElement.classList.contains('show-children')) {
@@ -245,7 +245,7 @@ function createSubTask(e) {
         return childList.appendChild(childTask);
     };
 
-    referenceTask(e);
+    referenceTask();
 };
 
 
@@ -266,7 +266,7 @@ function dropdown(e) {
 
 function checkBox(e) {
 
-    function checkBoxReference(e) {
+    function checkBoxReference() {
         const currentCheckbox = e.target;
         const currentTask = currentCheckbox.closest("li");
         const isChecked = currentCheckbox.checked;
@@ -320,7 +320,7 @@ function checkBox(e) {
         }
     };
 
-    checkBoxReference(e);
+    checkBoxReference();
 }
 
 
@@ -348,7 +348,7 @@ const getDate = () => {
 };
 
 function titleize(text) {
-    let wordsArray = text.toLowerCase().split(" ");
+    let wordsArray = text.trim().toLowerCase().split(" ");
 
     let words = wordsArray.map((word) => {
         if (word.length === 1) {
@@ -356,8 +356,8 @@ function titleize(text) {
         };
 
         if (word.length === 2) {
-            ; return word;
-        }
+            return word;
+        };
 
         return word[0].toUpperCase() + word.slice(1);
     });
