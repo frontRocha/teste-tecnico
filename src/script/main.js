@@ -11,7 +11,7 @@ const imgAdd = './assets/add.ico'
 //Objetos de funções, validações e atributos de elementos
 const validations = {
     checkEmpty: (title) => {
-        if (!title) throw new Error('Digite algo no campo!')
+        if (!title.trim()) throw new Error('Digite algo no campo!')
     },
     checkMinLength: (title) => {
         if (title.length < 4) throw new Error('Digite algo válido');
