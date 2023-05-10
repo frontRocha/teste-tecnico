@@ -107,6 +107,10 @@ const showMessageInitial = () => {
     messageInital.style.display = 'flex'
 }
 
+const setChildTaskClass = (childTask) => {
+    childTask.classList.add('child-item');
+}
+
 function task() {
 
     async function addTitleTask() {
@@ -152,10 +156,6 @@ function task() {
 
     const createTaskElement = (title) => {
         createElements(title);
-    }
-
-    const setChildTaskClass = (childTask) => {
-        childTask.classList.add('child-item');
     }
 
     function addTaskOnDom(title) {
@@ -295,7 +295,7 @@ function createSubTask(e) {
     function createChildTaskElement(parentTask) {
         const childList = getChildList(parentTask);
         const childTask = getChildTask();
-        childTask.classList.add('child-item');
+        setChildTaskClass(childTask)
 
         addTaskToDOM(childTask, childList);
 
