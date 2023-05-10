@@ -11,12 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400&family=Raleway:wght@100;200;300;400;500&display=swap"
         rel="stylesheet">
     <link href="./styles/main.css" rel="stylesheet">
-
-    <link rel="icon"
-        href="https://netdealstore.com.br/api/images/proxy?quality=100&amp;src=https://s3.amazonaws.com/producao.spayce.com.br/1638975755637_favicon.png"
-        type="image/x-icon">
-
-    <title>Teste técnico - Netdeal</title>
+    <title>Teste técnico</title>
 </head>
 
 <body>
@@ -25,10 +20,6 @@
             <div class="loading"></div>
         </div>
         <div id="container" class="container">
-            <div class="header">
-                <h1>DESAFIO</h1>
-                <img src="./assets/netdeal-logo.png" alt="netdeal" />
-            </div>
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <span class="title">Excluir</span>
@@ -59,8 +50,18 @@
         </div>
     </section>
 
-    <div id="error-message" class="error-message">
-        <p id="error-message-text"></p>
+    <div class="toast">
+        <div class="toast-content">
+            <i class="check"><img src="assets/warning.svg" /></i>
+
+            <div class="message">
+                <span class="text text-1">Campo inválido</span>
+                <span class="text text-2" id="alertMessage"></span>
+            </div>
+        </div>
+        <i class="close" id="closeIcon">x</i>
+
+        <div class="progress"></div>
     </div>
 
     <script src="./script/main.js"></script>

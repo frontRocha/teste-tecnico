@@ -4,110 +4,127 @@ const btnCancel = document.querySelector('#cancel-btn')
 const btnClose = document.querySelector('.close')
 const shiftObs = document.querySelector('.obs')
 const btnDelete = document.querySelector('.delete-task')
+const toast = document.querySelector(".toast")
+const progress = document.querySelector(".progress")
 
-const errorMessage = document.getElementById("error-message");
-const errorMessageText = document.getElementById("error-message-text");
-
-
-//Objeto de funções
 const actionDelete = {
     '.delete-task': taskDeleter,
     '.text': showPopover
 };
 
+const removeParentElement = (e) => {
+    e.target.parentElement.remove();
+}
 
-//Função de exclusão através do modal
+const addClassListOnToast = () => {
+    toast.classList.add("active");
+}
+
+const removeClassListOnToast = () => {
+    toast.classList.remove("active");
+}
+
+const addClassListOnProgress = () => {
+    progress.classList.add("active");
+}
+
+const removeClassListOnProgress = () => {
+    progress.classList.remove("active");
+}
+
 function taskDeleter(e) {
 
     const openModal = () => {
-        modal.style.display = 'block'
+        showModal()
 
         btnConfirm.addEventListener('click', () => {
             confirmDelete(e)
         })
 
         btnCancel.addEventListener('click', () => {
-            cancelDelete()
+            hideModal()
         })
 
         btnClose.addEventListener('click', () => {
-            modal.style.display = 'none'
+            hideModal()
         })
     }
 
     function confirmDelete() {
-        taskList.style.display = 'none'
-        loaderList.style.display = 'flex'
-
-        function removeTask() {
-            e.target.parentElement.remove();
-
-            taskList.style.display = 'block'
-            loaderList.style.display = 'none'
-
-            return setItemsLocalStorage();
-        };
-
+        hideTaskList()
+        showLoaderList()
         removeTask();
+        hideModal()
+    }
+
+    function removeTask() {
+        removeParentElement(e)
+
+        showTaskList()
+        hideLoaderList()
+
+        return setItemsLocalStorage();
+    };
+
+    const hideModal = () => {
         modal.style.display = 'none'
     }
 
-    const cancelDelete = () => {
-        modal.style.display = 'none'
+    const showModal = () => {
+        modal.style.display = 'block'
     }
 
     openModal()
 };
 
-
-//Notificação de erro ao titulo errado
 function showErrorMessage(message) {
-    errorMessageText.textContent = message;
-    errorMessage.style.visibility = "visible";
+    addClassListOnToast()
+    addClassListOnProgress()
+
+    alertMessage.innerHTML = message
+
+    timer1 = setTimeout(() => {
+        removeClassListOnToast()
+    }, 5000);
+
+    timer2 = setTimeout(() => {
+        removeClassListOnProgress()
+    }, 5300);
 }
 
-function hideErrorMessage() {
-    errorMessage.style.visibility = "hidden";
-}
-
-
-//Exibição de popover
 function showPopover(e) {
-    const selectItems = () => {
-        const item = e.target.parentElement.querySelector('.date')
-        const allItems = document.querySelectorAll('.date')
-        verifyClassContainsItems(item, allItems)
-    }
+    const item = e.target.parentElement.querySelector('.date')
+    const allItems = document.querySelectorAll('.date')
 
-    const verifyClassContainsItems = (item, allItems) => {
-        if (!item.classList.contains('show')) {
-            allItems.forEach(element => {
-                if (element.classList.contains('show')) {
-                    element.classList.remove('show')
-                }
-            })
-
-            item.classList.add('show')
+    allItems.forEach(element => {
+        if (element === item) {
+            element.classList.toggle('show')
             return
         }
 
-        item.classList.remove('show')
-        return
-    }
-
-    selectItems()
+        if (element.classList.contains('show')) {
+            element.classList.remove('show')
+        }
+    })
 }
 
+closeIcon.addEventListener("click", () => {
+    removeClassListOnToast()
 
-//Verificação para dispositivos móveis
+    setTimeout(() => {
+        removeClassListOnProgress()
+    }, 300);
+
+    clearTimeout(timer1);
+    clearTimeout(timer2);
+});
+
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     shiftObs.style.display = 'none'
 } else {
     shiftObs.style.display = 'block'
 }
 
-
-//Monitoramento de ações
 taskList.addEventListener("click", (e) => {
     Object.entries(actionDelete).forEach(([selector, action]) => {
         if (e.target.matches(selector)) {
@@ -116,16 +133,15 @@ taskList.addEventListener("click", (e) => {
     });
 });
 
-
 taskList.addEventListener("mousedown", (e) => {
     if (e.shiftKey && e.button === 0 && e.target.classList.contains('delete-task')) {
-        taskList.style.display = 'none'
-        loaderList.style.display = 'flex'
+        hideTaskList()
+        showLoaderList()
 
-        e.target.parentElement.remove();
+        removeParentElement(e)
 
-        taskList.style.display = 'block'
-        loaderList.style.display = 'none'
+        showTaskList()
+        hideLoaderList()
 
         return setItemsLocalStorage();
     }
