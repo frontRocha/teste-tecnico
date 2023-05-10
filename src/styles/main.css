@@ -119,7 +119,7 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 690px) {
   .content-form {
     flex-direction: column;
   }
